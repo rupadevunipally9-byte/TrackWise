@@ -8,7 +8,7 @@ function App() {
   const [expenses, setExpenses] = useState([]);
   const [total, setTotal] = useState(0);
 
-  const API = "http://localhost:5000";
+  const API = "https://trackwise-api.onrender.com";
 
   const fetchExpenses = async () => {
     const res = await axios.get(`${API}/expenses`);
