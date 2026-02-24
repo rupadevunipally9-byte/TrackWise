@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
-  },
+  "start": "react-scripts start",
+  "backend": "node ../server/index.js",
+  "dev": "concurrently \"npm run backend\" \"npm start\""
+},
   "keywords": [],
   "author": "",
   "license": "ISC",

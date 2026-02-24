@@ -8,23 +8,31 @@ function App() {
   const [expenses, setExpenses] = useState([]);
   const [total, setTotal] = useState(0);
 
-  const API = "https://trackwise-api.onrender.com";
+  const API = "http://localhost:5000";
 
   const fetchExpenses = async () => {
+  try {
     const res = await axios.get(`${API}/expenses`);
     setExpenses(res.data);
-  };
+  } catch (err) {
+    console.error("Error fetching expenses:", err);
+  }
+};
 
-  const fetchTotal = async () => {
+ const fetchTotal = async () => {
+  try {
     const res = await axios.get(`${API}/total`);
     setTotal(res.data.total);
-  };
-
+  } catch (err) {
+    console.error("Error fetching total:", err);
+  }
+};
   const addExpense = async () => {
-    if (!amount || !category) return;
+  if (!amount || !category) return;
 
+  try {
     await axios.post(`${API}/add-expense`, {
-      amount,
+      amount: parseFloat(amount), // ensure number
       category,
       note,
     });
@@ -35,7 +43,10 @@ function App() {
 
     fetchExpenses();
     fetchTotal();
-  };
+  } catch (err) {
+    console.error("Error adding expense:", err);
+  }
+}; 
 
   useEffect(() => {
     fetchExpenses();

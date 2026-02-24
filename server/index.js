@@ -1,3 +1,4 @@
+
 const mysql=require("mysql2");
 const db = mysql.createConnection({
   host: "localhost",
@@ -25,6 +26,7 @@ app.use(express.json());
 
 
 app.post("/add-expense", (req, res) => {
+  console.log("POST /add-expense body:", req.body);
   const { amount, category, note } = req.body;
 
   const sql =
@@ -32,6 +34,7 @@ app.post("/add-expense", (req, res) => {
 
   db.query(sql, [amount, category, note], (err, result) => {
     if (err) {
+      console.log(err);
       return res.status(500).send(err);
     }
 
@@ -41,10 +44,11 @@ app.post("/add-expense", (req, res) => {
   });
 });
 
-app.get("/expenses", (req, res) => {
-  db.query("SELECT * FROM expenses", (err, results) => {
-    if (err) return res.status(500).send(err);
-    res.json(results);
+app.get("/total", (req, res) => {
+  const sql = "SELECT SUM(amount) AS total FROM expenses";
+  db.query(sql, (err, result) => {
+    if (err) return res.status(500).json(err);
+    res.json({ total: result[0].total || 0 });
   });
 });
 
@@ -102,8 +106,8 @@ app.delete("/delete/:id", (req, res) => {
   () => res.json({ message: "Deleted" }));
 });
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
-});
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log("Server running"));
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+}); 
