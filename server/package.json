@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "start": "react-scripts start",
-  "backend": "node ../server/index.js",
-  "dev": "concurrently \"npm run backend\" \"npm start\""
+  "start": "node index.js",
+  "dev": "nodemon index.js"
 },
   "keywords": [],
   "author": "",
